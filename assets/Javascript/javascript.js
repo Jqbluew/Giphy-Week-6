@@ -1,13 +1,18 @@
-//API Key XACr6gSTTFqwmlD2UBnIscDISgHS9EA9
 
-/*javascript, jQuery
-var xhr = $.get("http://api.giphy.com/v1/gifs/search?q=ryan+gosling&api_key=YOUR_API_KEY&limit=5");*/
+/*
+SAMPLE http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag='+q, true
+JP's =https://api.giphy.com/v1/gifs/random?api_key=XACr6gSTTFqwmlD2UBnIscDISgHS9EA9
+
+https://api.giphy.com/v1/
+
+API Key XACr6gSTTFqwmlD2UBnIscDISgHS9EA9
+
+javascript, jQuery =var xhr = $.get("http://api.giphy.com/v1/gifs/search?q=ryan+gosling&api_key=YOUR_API_KEY&limit=5");*/
 
 $(document).ready(function() {
 	var frenchGifs =['Cheese', 'Wine', 'Bread', 'Escargot', 'Eiffel Tower', 'Croissant', 'Fashion'];
 
 	function displayGifButtons(){
-		$("gifShowcase").empty();
 		for (var i = 0; i < frenchGifs.length; i++) {
 			var gifButton = $("<button>");
 			gifButton.addClass("frenchGifs");
@@ -21,6 +26,7 @@ $(document).ready(function() {
 function addNewButton(){
 	$("#addGif").on("click", function(){
 		var addGiphy = $("#add-giphy").val().trim();
+		alert ("HELLO");
 		if (addGiphy == ""){
 			return false;
 		}
@@ -40,7 +46,13 @@ function removeLastButton(){
 
 function displayGifs(){
 	var addGiphy = $(this).attr("data-name");
-	var queryUrl = "http://api.giphy.com/v1/gifs/search?q=" + addGiphy + "&api_key=XACr6gSTTFqwmlD2UBnIscDISgHS9EA9&limit=10";
+	var queryUrl = "https://api.giphy.com/v1/gifs/search?api_key=XACr6gSTTFqwmlD2UBnIscDISgHS9EA9&q=" + addGiphy+ "&limit=20&offset=0&rating=G&lang=en";
+
+	//"https://api.giphy.com/v1/gifs/" +addGiphy+ "?api_key=XACr6gSTTFqwmlD2UBnIscDISgHS9EA9";
+
+	//"http://api.giphy.com/v1/gifs/search?" +addGiphy+ "&api_key=XACr6gSTTFqwmlD2UBnIscDISgHS9EA9";
+
+	//"https://api.giphy.com/v1/gifs/search?q=" + addGiphy + "&api_key=XACr6gSTTFqwmlD2UBnIscDISgHS9EA9&limit=10";
  	console.log(queryURL);
   $.ajax({
         url: queryURL,
@@ -55,11 +67,7 @@ function displayGifs(){
 	  	for (var i = 0; i < newGif.length; i++) {
 	  		
 	  		var gifDiv = $("<div>");
-	  		gifDiv.addClass("gifDiv");
-
-	  		var gifRating = $("<p>").text("Rating: " + newGif[i].rating);
-	        gifDiv.append(gifRating);
-	            
+	  		gifDiv.addClass("gifDiv");	            
 	        var gifImage = $("<img>");
 	        gifImage.attr("src", newGif[i].images.fixed_height_small_still.url); 
 	        gifImage.attr("data-still",newGif[i].images.fixed_height_small_still.url); 
@@ -77,8 +85,12 @@ function displayGifs(){
 	addNewButton();
 	removeLastButton();
 
-		$(document).on("click", ".action", displayGifs);
-		$(document).on("click", ".image", function(){
+		//$("#button").click(function)
+		$(document).on("click", "addGiphy", displayGifs);
+		$("gifShowcase").on("click", "frenchGifs", function(){
+			alert("OK")
+		});
+		$(document).on("click", "gifDiv", function(){
 		
 		var imgState = $(this).attr('data-state');
 		if (imgState == 'still'){
